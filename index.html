@@ -24,11 +24,17 @@
             const fileInput = document.getElementById('fileInput');
             const formData = new FormData();
             formData.append('file', fileInput.files[0]);
-            fetch('upload.php', {
-                method: 'POST',
-                body: formData
-            }).then(response => response.text())
-              .then(data => alert(data))
+            fetch('https://api.github.com/repos/obito994/your-repository-name/contents/your-path/filename', {
+                method: 'PUT',
+                headers: {
+                    'Authorization': 'token YOUR_GITHUB_TOKEN'
+                },
+                body: JSON.stringify({
+                    message: 'Upload file',
+                    content: btoa(fileInput.files[0])
+                })
+            }).then(response => response.json())
+              .then(data => alert('File uploaded successfully!'))
               .catch(error => alert('Error: ' + error));
         }
     </script>
